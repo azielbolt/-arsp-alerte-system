@@ -1,0 +1,85 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h1>Ajouter un rendez-vous</h1>
+<div class="card">
+    <form method="post">
+        {% set rdv = None %}
+        
+<div class="grid-2">
+    <div>
+        <label>Nom du visiteur *</label>
+        <input name="nom_visiteur" required value="{{ rdv.nom_visiteur if rdv else '' }}">
+    </div>
+    <div>
+        <label>Téléphone</label>
+        <input name="telephone" value="{{ rdv.telephone if rdv else '' }}">
+    </div>
+    <div>
+        <label>Email</label>
+        <input type="email" name="email" value="{{ rdv.email if rdv else '' }}">
+    </div>
+    <div>
+        <label>Organisation</label>
+        <input name="organisation" value="{{ rdv.organisation if rdv else '' }}">
+    </div>
+    <div>
+        <label>Fonction</label>
+        <input name="fonction" value="{{ rdv.fonction if rdv else '' }}">
+    </div>
+    <div>
+        <label>Lieu</label>
+        <input name="lieu" value="{{ rdv.lieu if rdv else 'Direction Générale ARSP' }}">
+    </div>
+    <div>
+        <label>Date *</label>
+        <input type="date" name="date_rdv" required value="{{ rdv.date_rdv if rdv else '' }}">
+    </div>
+    <div>
+        <label>Heure *</label>
+        <input type="time" name="heure_rdv" required value="{{ rdv.heure_rdv if rdv else '' }}">
+    </div>
+</div>
+
+<br>
+
+<label>Personne à rencontrer</label>
+<input name="personne_a_rencontrer" value="{{ rdv.personne_a_rencontrer if rdv else 'Directeur Général de l’ARSP - Ted Beleshay' }}">
+
+<br><br>
+
+<label>Motif du rendez-vous *</label>
+<textarea name="motif" rows="4" required>{{ rdv.motif if rdv else '' }}</textarea>
+
+<br><br>
+
+<div class="grid-2">
+    <div>
+        <label>Statut</label>
+        <select name="statut">
+            {% for s in ['En attente', 'Confirmé', 'Reçu', 'Annulé', 'Reporté'] %}
+            <option value="{{ s }}" {% if rdv and rdv.statut == s %}selected{% endif %}>{{ s }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div>
+        <label>Priorité</label>
+        <select name="priorite">
+            {% for p in ['Normale', 'Haute', 'Urgente'] %}
+            <option value="{{ p }}" {% if rdv and rdv.priorite == p %}selected{% endif %}>{{ p }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</div>
+
+<br>
+
+<label>Observation</label>
+<textarea name="observation" rows="3">{{ rdv.observation if rdv else '' }}</textarea>
+
+        <br><br>
+        <button class="btn">Enregistrer</button>
+        <a class="btn btn-light" href="{{ url_for('rendez_vous') }}">Annuler</a>
+    </form>
+</div>
+{% endblock %}

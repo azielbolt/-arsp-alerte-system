@@ -1,0 +1,34 @@
+
+{% extends "base.html" %}
+{% block login_content %}
+<div class="login-page">
+    <form class="login-box" method="post">
+        <h2 class="login-title">Gestion RDV - DG ARSP</h2>
+        <p style="text-align:center;">Directeur Général de l’ARSP - Ted Beleshay</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert danger">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <label>Nom d'utilisateur</label>
+        <input type="text" name="username" required>
+
+        <br><br>
+
+        <label>Mot de passe</label>
+        <input type="password" name="password" required>
+
+        <br><br>
+
+        <button class="btn" style="width:100%;">Se connecter</button>
+
+        <p style="text-align:center; margin-top:20px;">
+            Compte par défaut : <b>admin</b> / <b>admin123</b>
+        </p>
+    </form>
+</div>
+{% endblock %}

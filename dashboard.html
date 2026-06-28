@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h1>Tableau de bord</h1>
+
+<div class="cards">
+    <div class="card metric"><h2>{{ total }}</h2><p>Total RDV</p></div>
+    <div class="card metric"><h2>{{ today_count }}</h2><p>RDV aujourd'hui</p></div>
+    <div class="card metric"><h2>{{ pending }}</h2><p>En attente</p></div>
+    <div class="card metric"><h2>{{ confirmed }}</h2><p>Confirmés</p></div>
+</div>
+
+<div class="card">
+    <h2>Prochains rendez-vous</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Date</th><th>Heure</th><th>Visiteur</th><th>Organisation</th><th>Motif</th><th>Statut</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rdvs %}
+            <tr>
+                <td>{{ r.date_rdv }}</td>
+                <td>{{ r.heure_rdv }}</td>
+                <td>{{ r.nom_visiteur }}</td>
+                <td>{{ r.organisation }}</td>
+                <td>{{ r.motif }}</td>
+                <td>{{ r.statut }}</td>
+            </tr>
+            {% else %}
+            <tr><td colspan="6">Aucun rendez-vous.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

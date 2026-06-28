@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+{% block content %}
+<h1>Liste des rendez-vous</h1>
+
+<div class="card">
+    <form method="get" class="grid-3">
+        <div>
+            <label>Recherche</label>
+            <input name="search" value="{{ search }}" placeholder="Nom, organisation, téléphone">
+        </div>
+        <div>
+            <label>Date</label>
+            <input type="date" name="date_rdv" value="{{ date_rdv }}">
+        </div>
+        <div>
+            <label>Statut</label>
+            <select name="statut">
+                <option value="">Tous</option>
+                {% for s in ['En attente', 'Confirmé', 'Reçu', 'Annulé', 'Reporté'] %}
+                <option value="{{ s }}" {% if statut == s %}selected{% endif %}>{{ s }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div>
+            <button class="btn">Filtrer</button>
+            <a class="btn btn-light" href="{{ url_for('rendez_vous') }}">Réinitialiser</a>
+        </div>
+    </form>
+</div>
+
+<div class="card">
+    <a class="btn" href="{{ url_for('ajouter_rdv') }}">+ Ajouter RDV</a>
+    <br><br>
+
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th><th>Date</th><th>Heure</th><th>Visiteur</th><th>Organisation</th>
+                <th>Motif</th><th>Priorité</th><th>Statut</th><th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for r in rdvs %}
+            <tr>
+                <td>{{ r.id }}</td>
+                <td>{{ r.date_rdv }}</td>
+                <td>{{ r.heure_rdv }}</td>
+                <td>{{ r.nom_visiteur }}</td>
+                <td>{{ r.organisation }}</td>
+                <td>{{ r.motif }}</td>
+                <td>{{ r.priorite }}</td>
+                <td>{{ r.statut }}</td>
+                <td>
+                    <a class="btn btn-light" href="{{ url_for('modifier_rdv', rdv_id=r.id) }}">Modifier</a>
+                    <form method="post" action="{{ url_for('supprimer_rdv', rdv_id=r.id) }}" style="display:inline;" onsubmit="return confirm('Supprimer ce rendez-vous ?');">
+                        <button class="btn btn-red">Supprimer</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="9">Aucun rendez-vous trouvé.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
