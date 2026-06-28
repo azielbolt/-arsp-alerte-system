@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}{% block content %}
+<header><div class="container nav"><a class="brand" href="#"><span class="brand-logo">ARSP</span><span>Alerte ARSP</span></a><nav class="menu"><a href="#signalement">Signaler</a><a href="{{ url_for('login') }}">Administration</a></nav></div></header>
+<section class="hero"><div class="container hero-grid"><div><div class="kicker">Plateforme officielle de signalement</div><h1>Signaler une situation à l’ARSP</h1><p class="lead">Remplissez le formulaire pour transmettre une alerte avec des preuves. Votre demande sera reçue dans un tableau de bord sécurisé.</p><div class="actions"><a href="#signalement" class="btn">Faire un signalement</a><a href="{{ url_for('login') }}" class="btn light">Espace admin</a></div></div><div class="hero-card"><h2>Réception sécurisée</h2><p>Signalements, provinces, secteurs, entités concernées et fichiers joints.</p></div></div></section>
+<section class="section" id="signalement"><div class="container"><h2 class="section-title">Formulaire de signalement</h2><div class="form-wrap"><form action="{{ url_for('soumettre') }}" method="POST" enctype="multipart/form-data">
+<div><label>Nom du déclarant</label><input name="nom_declarant"></div><div><label>Téléphone</label><input name="telephone"></div><div><label>Email</label><input type="email" name="email"></div>
+<div><label>Province du déclarant *</label><select name="province_declarant" required><option value="">Choisir...</option>{% for p in provinces %}<option>{{ p }}</option>{% endfor %}</select></div>
+<div><label>Province de l’incident *</label><select name="province_incident" required><option value="">Choisir...</option>{% for p in provinces %}<option>{{ p }}</option>{% endfor %}</select></div>
+<div><label>Ville de l’incident *</label><input name="ville_incident" required></div>
+<div><label>Secteur d’activité *</label><select name="secteur_activite" required><option value="">Choisir...</option>{% for s in secteurs %}<option>{{ s }}</option>{% endfor %}</select></div>
+<div><label>Type d’entité concernée *</label><select name="type_entite" required><option value="">Choisir...</option>{% for t in types_entite %}<option>{{ t }}</option>{% endfor %}</select></div>
+<div><label>Type de signalement *</label><select name="type_signalement" required><option value="">Choisir...</option>{% for t in types_signalement %}<option>{{ t }}</option>{% endfor %}</select></div>
+<div><label>Nom entreprise / personne concernée *</label><input name="nom_entite_concernee" required></div>
+<div><label>Titre du signalement</label><input name="titre"></div><div><label>Priorité</label><select name="priorite">{% for p in priorites %}<option>{{ p }}</option>{% endfor %}</select></div>
+<div class="full"><label>Description détaillée *</label><textarea name="description" required></textarea></div>
+<div class="full"><label>Fichiers joints / preuves</label><input type="file" name="fichiers" multiple><small>PDF, images, documents, audio ou vidéo.</small></div>
+<div class="full"><button class="btn" type="submit">Envoyer le signalement</button></div>
+</form></div></div></section>{% endblock %}

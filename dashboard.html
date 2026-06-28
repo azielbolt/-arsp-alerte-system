@@ -1,37 +1,4 @@
 
-{% extends "base.html" %}
-{% block content %}
-<h1>Tableau de bord</h1>
-
-<div class="cards">
-    <div class="card metric"><h2>{{ total }}</h2><p>Total RDV</p></div>
-    <div class="card metric"><h2>{{ today_count }}</h2><p>RDV aujourd'hui</p></div>
-    <div class="card metric"><h2>{{ pending }}</h2><p>En attente</p></div>
-    <div class="card metric"><h2>{{ confirmed }}</h2><p>Confirmés</p></div>
-</div>
-
-<div class="card">
-    <h2>Prochains rendez-vous</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th><th>Heure</th><th>Visiteur</th><th>Organisation</th><th>Motif</th><th>Statut</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for r in rdvs %}
-            <tr>
-                <td>{{ r.date_rdv }}</td>
-                <td>{{ r.heure_rdv }}</td>
-                <td>{{ r.nom_visiteur }}</td>
-                <td>{{ r.organisation }}</td>
-                <td>{{ r.motif }}</td>
-                <td>{{ r.statut }}</td>
-            </tr>
-            {% else %}
-            <tr><td colspan="6">Aucun rendez-vous.</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-{% endblock %}
+{% extends "base.html" %}{% block content %}<section class="section"><div class="container"><h1>Tableau de bord</h1><div class="stats"><div class="stat"><h2>{{ total }}</h2><p>Total</p></div><div class="stat"><h2>{{ nouveau }}</h2><p>Nouveaux</p></div><div class="stat"><h2>{{ traitement }}</h2><p>En traitement</p></div><div class="stat"><h2>{{ resolu }}</h2><p>Résolus</p></div><div class="stat urgent"><h2>{{ urgent }}</h2><p>Urgents</p></div></div>
+<div class="grid-2"><div class="card"><h2>Par province de l’incident</h2>{% for r in par_province %}<div class="bar-row"><span>{{ r.province_incident }}</span><b>{{ r.total }}</b></div>{% else %}<p>Aucune donnée.</p>{% endfor %}</div><div class="card"><h2>Par secteur</h2>{% for r in par_secteur %}<div class="bar-row"><span>{{ r.secteur_activite }}</span><b>{{ r.total }}</b></div>{% else %}<p>Aucune donnée.</p>{% endfor %}</div></div>
+<div class="card"><div class="table-head"><h2>Derniers signalements</h2><a class="btn" href="{{ url_for('signalements') }}">Voir tout</a></div><div class="table-scroll"><table><thead><tr><th>ID</th><th>Date</th><th>Déclarant</th><th>Province déclarant</th><th>Province incident</th><th>Ville</th><th>Secteur</th><th>Type</th><th>Entité</th><th>Statut</th><th>Fichiers</th></tr></thead><tbody>{% for s in derniers %}<tr><td>#{{ s.id }}</td><td>{{ s.created_at }}</td><td>{{ s.nom_declarant }}</td><td>{{ s.province_declarant }}</td><td>{{ s.province_incident }}</td><td>{{ s.ville_incident }}</td><td>{{ s.secteur_activite }}</td><td>{{ s.type_signalement }}</td><td>{{ s.nom_entite_concernee }}</td><td><span class="badge">{{ s.statut }}</span></td><td>{{ s.nb_fichiers }}</td></tr>{% else %}<tr><td colspan="11">Aucun signalement.</td></tr>{% endfor %}</tbody></table></div></div></div></section>{% endblock %}
