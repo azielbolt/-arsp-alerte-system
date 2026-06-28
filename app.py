@@ -264,4 +264,5 @@ def export_csv():
 if __name__ == "__main__":
     init_db()
     Path(UPLOAD_FOLDER).mkdir(exist_ok=True)
-    app.run(debug=True)
+port = int(os.environ.get("PORT", 10000))
+app.run(host="0.0.0.0", port=port)
